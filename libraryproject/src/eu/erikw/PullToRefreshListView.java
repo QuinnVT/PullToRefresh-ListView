@@ -79,6 +79,7 @@ public class PullToRefreshListView extends ListView{
     private String              pullToRefreshText;
     private String              releaseToRefreshText;
     private String              refreshingText;
+    private String				subText;
 
 	private State				state;
 	private LinearLayout		headerContainer;
@@ -88,6 +89,7 @@ public class PullToRefreshListView extends ListView{
     private ImageView			image;
 	private ProgressBar			spinner;
 	private TextView			text;
+	private TextView			subTextView;
 	private OnItemClickListener onItemClickListener;
 	private OnRefreshListener	onRefreshListener;
 
@@ -192,6 +194,11 @@ public class PullToRefreshListView extends ListView{
             text.setText(refreshingText);
         }
     }
+    
+    public void setSubText(String subText){
+    	this.subText=subText;
+    	subTextView.setText(subText);
+    }
 	
 	private void init(){
 		setVerticalFadingEdgeEnabled(false);
@@ -199,6 +206,7 @@ public class PullToRefreshListView extends ListView{
 		headerContainer = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.pull_to_refresh_header, null);
 		header = (RelativeLayout) headerContainer.findViewById(R.id.header);
 		text = (TextView) header.findViewById(R.id.text);
+		subTextView = (TextView)header.findViewById(R.id.subText);
 		image = (ImageView) header.findViewById(R.id.image);
 		spinner = (ProgressBar) header.findViewById(R.id.spinner);
 
@@ -332,6 +340,7 @@ public class PullToRefreshListView extends ListView{
 		image.clearAnimation();
 		image.setVisibility(View.INVISIBLE);
 		text.setText(refreshingText);
+		subTextView.setVisibility(View.VISIBLE);
 	}
 
 	private void setState(State state){
@@ -339,6 +348,7 @@ public class PullToRefreshListView extends ListView{
 		switch(state){
 			case PULL_TO_REFRESH:
 				spinner.setVisibility(View.INVISIBLE);
+				subTextView.setVisibility(View.INVISIBLE);
 				image.setVisibility(View.VISIBLE);
 				text.setText(pullToRefreshText);
 				break;
@@ -347,6 +357,7 @@ public class PullToRefreshListView extends ListView{
 				spinner.setVisibility(View.INVISIBLE);
 				image.setVisibility(View.VISIBLE);
 				text.setText(releaseToRefreshText);
+				subTextView.setVisibility(View.INVISIBLE);
 				break;
 
 			case REFRESHING:
